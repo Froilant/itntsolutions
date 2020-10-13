@@ -1,0 +1,31 @@
+<!--data grid-->
+<div class="panel panel-info table-responsive">
+	<div class="panel-body">
+		${req:controls}  	
+		<!--data grid-->
+		<table class="table table-hover table-striped table-condensed">
+		
+				<col width='100%'/>
+
+		
+			<!--encabezados-->
+			<thead>
+				<tr>
+		<th onclick="sortBy('descrip','query-categ.sql')" class="sortable">Nombre<span class="glyphicon glyphicon-triangle-top" id="sort_desc_descrip">
+</span>
+<span class="glyphicon glyphicon-triangle-bottom" id="sort_asc_descrip">
+</span></th>
+	</tr>
+			</thead>
+			<!--data-->
+			<tbody>
+			<rows>
+			<tr onclick="selectItem('${fld:categ_id}')" style="cursor: pointer;">
+		<td align="center"><span id="${fld:categ_id}">${fld:descrip}</span></td>
+	</tr>
+			</rows>
+			</tbody>
+		
+		</table>
+	</div>	
+</div>

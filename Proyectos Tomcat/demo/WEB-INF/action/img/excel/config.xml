@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<config nodb="true">
+
+	<summary>
+		Exportar documento excel directo al browser
+	</summary>
+
+	<log>false</log>
+
+	<transaction>
+		<classname>dinamica.GenericTransaction</classname>
+		<validator>false</validator>
+		<transaction>false</transaction>
+		<jdbc-log>false</jdbc-log>
+		<recordset id="query-imagebank.sql" source="session" scope="transaction" />
+	</transaction>
+
+	<output>
+		<classname>dinamica.GenericExcelOutput</classname>
+	</output>
+	
+	<excel recordset='query-imagebank.sql' sheetname='Registro de Imagenes' filename='img.xls'>
+		<col id='filename' label='Archivo' />
+		<col id='content_type' label='Contenido' />
+		<col id='description' label='Descripción' />
+		<col id='image_size' label='Tamaño' />
+	</excel>
+
+</config>

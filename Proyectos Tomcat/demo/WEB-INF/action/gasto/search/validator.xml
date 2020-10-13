@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<validator onerror='/action/error/crud'>
+	<parameter id='fecha' type='date' required='false' label='Fecha' maxlen='13'/>
+	<parameter id='monto' type='double' required='false' label='Monto' maxlen='17'/>
+	<parameter id='motivo' type='varchar' required='false' label='Concepto' maxlen='150'/>
+	<custom-validator classname="dinamica.validators.SQLPatternTransformer" parameter="motivo" rule="like" />
+</validator>

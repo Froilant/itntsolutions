@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<validator onerror='/action/error/crud'>
+	<parameter id='filename' type='varchar' required='false' label='Archivo' maxlen='400'/>
+	<parameter id='content_type' type='varchar' required='false' label='Contenido' maxlen='150'/>
+	<parameter id='description' type='varchar' required='false' label='Descripción' maxlen='500'/>
+	<parameter id='image_size' type='integer' required='false' label='Tamaño' maxlen='10'/>
+	<parameter id='image_data' type='bytea' required='false' label='BLOB' maxlen='2147483647'/>
+	<custom-validator classname="dinamica.validators.SQLPatternTransformer" parameter="filename" rule="contains" />
+	<custom-validator classname="dinamica.validators.SQLPatternTransformer" parameter="content_type" rule="contains" />
+	<custom-validator classname="dinamica.validators.SQLPatternTransformer" parameter="description" rule="contains" />
+</validator>

@@ -1,0 +1,335 @@
+/*tamaño general para formulario y divs*/
+.main-center{
+ 	margin: 0 auto;
+ 	max-width: 600px;
+ 	margin-bottom: 20px;
+}
+
+/* aplicar color a la celda cuando se pasa el puntero del mouse*/
+th.sortable:hover {
+	background-color: #d9edf7;
+	color: #3170aa;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+/*ocultar y alinear a la derecha imagen de ordenamiento*/
+th.sortable span {
+	display: none;
+	float: right;
+}
+
+/*las imagenes de una celda tendra el puntero del mouse*/
+.table td img {
+	cursor: pointer;
+}
+
+/*las imagenes de un input tendra el puntero del mouse*/
+.input-group-addon img {
+	cursor: pointer;
+}
+
+/*tamaño de control de fecha*/
+.date {
+	width: 50%;
+}
+
+/*alinear a la derecha los controles numericos*/
+.numeric {
+	text-align: right;
+}
+
+/*botones de picklist tendra una fuent mas pequeña*/
+.btn-picklist {
+	font-size: 9pt;
+}
+
+/* popup con iframe */
+.dialogbox {
+	box-shadow: 0px 0px 15px 3px #61606c;
+}
+
+/* popup html alert/confirm box */
+.alertbox {
+	border-radius: 7px 7px 7px 7px;
+	box-shadow: 0px 0px 15px 3px #61606c;
+	background-color: #ffffff;
+	min-width: 250px;
+	min-height: 150px;
+	text-align: center;
+}
+
+/* div general del alert/confirm box */
+.alertbox div {
+	height: 100px;
+	width: 250px;
+	background-color: #ffffff;
+	border-radius: 7px 7px 0px 0px;
+	border-bottom: 1px solid #e5e5e5;
+	box-shadow: 0px 0px 0px 0px #61606c;
+	display: table-cell;
+	vertical-align: middle;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: black;
+}
+
+/*boton del alert/confirm box */
+.alertbox button {
+	margin-top: 2px;
+}
+
+/* lightbox */
+.overlay {
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: #b5b5b5;
+	z-index: 1001;
+	opacity: .50;
+	filter: alpha(opacity = 50);
+}
+
+/* calendario inicio */
+TD.calDay:hover {
+	background-color: #CCCCCC;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+TD.calCurDay:hover {
+	background-color: #CCCCCC;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+TD.calCurDay {
+	color: white;
+	font-weight: bold;
+	background-color: #007dcc;
+	font-family: Arial;
+	font-size: 8pt;
+	padding: 1px;
+	cursor: pointer;
+}
+
+TD.calDisabled {
+	color: red;
+	background-color: white;
+	font-family: Arial;
+	font-size: 8pt;
+	padding: 1px;
+	text-decoration: line-through;
+}
+/* calendario fin */
+
+/* hgrid inicio */
+.hgrid td {
+	padding: 5px; 
+	vertical-align: top; 
+	height: 140px; 
+	width: 160px; 
+	padding-top: 10px; 
+	font-size: 8pt;
+	text-align: center;
+}
+
+.hgrid td img {
+	background-color: #ffffff;
+	box-shadow: 0px 0px 15px 1px #61606c;
+	border-radius: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: 130px;
+	padding: 5px;
+}
+
+.hgrid td img:hover {
+    -webkit-transform: scale(1.6);
+    -ms-transform: scale(1.6);
+    transform: scale(1.6);
+}
+
+.fade {
+	-webkit-transition: opacity 0.3s ease-in;
+    -moz-transition: opacity 0.3s ease-in;
+    -ms-transition: opacity 0.3s ease-in;
+    -o-transition: opacity 0.3s ease-in;
+}
+/* hgrid fin */
+
+/*colocar curso en los iconos de fuentes*/
+span.glyphicon  {
+	cursor: pointer;
+}
+
+/*añadir icono de pdf al boton*/
+.exportPDF {
+	background-origin:content-box; 
+	display:block; 
+	margin:0 auto; 
+	width:150px;
+	margin-bottom: 10px;
+	padding-left: 10px; 
+}
+
+/*panel de menu iconograficos inicio*/
+.home-panel td:hover {
+	background-color: #f5f5f5;
+	cursor: pointer;
+}
+
+.home-panel td{
+	font-size: 8pt;
+	text-align: center;
+}
+
+.home-panel > tbody > tr > td,
+.home-panel > tbody > tr > th,
+.home-panel > tfoot > tr > td,
+.home-panel > tfoot > tr > th,
+.home-panel > thead > tr > td,
+.home-panel > thead > tr > th {
+    border: none;
+    border-radius: 5px;
+}
+
+.home-panel td img {
+	border-radius: 5px;
+	height: 50px;
+}
+/*panel de menu iconograficos fin*/
+
+/*estilo para la pagina de inicio del sistema*/
+.main {
+	box-shadow: 0px 0px 15px 3px #61606c;
+	border-radius: 5px;
+	width:970px; 
+	height: 530px;
+	background-color:#ffffff; 
+	margin:0 auto; 
+	margin-top:20px;
+}
+
+/*estilo para el formulario de login y olvide contraseña*/
+.mainform {
+	float:right;
+	width:40%;
+	margin-right:5px;
+	margin-top:30px;
+	margin-bottom:15px;
+	width:350px;
+}
+
+/*estilo para iframe del menu*/
+.homeBar {
+	width:20%;
+	height:100%;
+	border:0px;
+	float:left;
+}
+
+/*estilo para iframe del contenido principal*/
+.homeContent {
+  	width:80%;
+	height:100%;
+	border:0px;
+	float:left;
+}
+
+/* menu inicio */
+.menuBody {
+	margin-left: 0px;
+	margin-right: 0px;
+	border-right: dotted 1px silver;
+}
+
+.menuContainer {
+	position: relative;
+    display: block;
+}
+
+.menuContainerBorder {
+	border-bottom: 1px solid #dddddd;
+}
+
+div.menuContainer:hover {
+	cursor: pointer;
+	background-color: #f5f5f5;
+}
+
+.menuTitle {
+	color: #337ab7;
+    text-decoration: none;
+    padding: 10px;
+    padding-left: 15px;
+}
+
+.menuItems {
+	max-height: 0;
+	overflow: hidden;
+}
+
+.menuItem {
+	color: #337ab7;
+	text-decoration: none;
+	padding-left: 25px;
+	font-size: 10pt;
+}
+
+.submenuTitle {
+	text-decoration: none;
+	color: #337ab7;
+	text-decoration: none;
+	padding: 0px;
+    padding-left: 25px;
+}
+/* menu fin */
+
+/*icono animado de espera*/
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -ms-animation: spin .7s infinite linear;
+    -webkit-animation: spinw .7s infinite linear;
+    -moz-animation: spinm .7s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+  
+@-webkit-keyframes spinw {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes spinm {
+    from { -moz-transform: rotate(0deg);}
+    to { -moz-transform: rotate(360deg);}
+}
+/*icono animado de espera*/
+
+/*ocultar columna cuando no sea landscape*/
+.hidden-xs-down {
+	display: none;
+}
+
+/*mostral columna cuando sea landscape*/
+@media (min-width: 568px) {
+	 .hidden-xs-down {
+	 	display: table-cell;
+	 }	
+}
+
+/*añadir asterisco a los campos obligatorios*/
+.form-group.required .control-label:after {
+  content:" *";
+  color:red;
+  font-size: 19px;
+  font-weight: bold;
+  vertical-align: top;
+}

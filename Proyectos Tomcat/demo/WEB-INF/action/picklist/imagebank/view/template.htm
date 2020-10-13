@@ -1,0 +1,55 @@
+<!--data grid-->
+<div class="panel panel-info table-responsive">
+	<div class="panel-body">
+		${req:controls}  	
+		<!--data grid-->
+		<table class="table table-hover table-striped table-condensed">
+		
+				<col width='20%'/>
+	<col width='20%'/>
+	<col width='20%'/>
+	<col width='20%'/>
+	<col width='20%'/>
+
+		
+			<!--encabezados-->
+			<thead>
+				<tr>
+		<th onclick="sortBy('filename','query-imagebank.sql')" class="sortable">Archivo<span class="glyphicon glyphicon-triangle-top" id="sort_desc_filename">
+</span>
+<span class="glyphicon glyphicon-triangle-bottom" id="sort_asc_filename">
+</span></th>
+		<th onclick="sortBy('content_type','query-imagebank.sql')" class="sortable">Contenido<span class="glyphicon glyphicon-triangle-top" id="sort_desc_content_type">
+</span>
+<span class="glyphicon glyphicon-triangle-bottom" id="sort_asc_content_type">
+</span></th>
+		<th onclick="sortBy('description','query-imagebank.sql')" class="sortable">Descripción<span class="glyphicon glyphicon-triangle-top" id="sort_desc_description">
+</span>
+<span class="glyphicon glyphicon-triangle-bottom" id="sort_asc_description">
+</span></th>
+		<th onclick="sortBy('image_size','query-imagebank.sql')" class="sortable">Tamaño<span class="glyphicon glyphicon-triangle-top" id="sort_desc_image_size">
+</span>
+<span class="glyphicon glyphicon-triangle-bottom" id="sort_asc_image_size">
+</span></th>
+		<th onclick="sortBy('image_data','query-imagebank.sql')" class="sortable">BLOB<span class="glyphicon glyphicon-triangle-top" id="sort_desc_image_data">
+</span>
+<span class="glyphicon glyphicon-triangle-bottom" id="sort_asc_image_data">
+</span></th>
+	</tr>
+			</thead>
+			<!--data-->
+			<tbody>
+			<rows>
+			<tr onclick="selectItem('${fld:id}')" style="cursor: pointer;">
+		<td align="center"><span id="${fld:id}">${fld:filename}</span></td>
+		<td align="center">${fld:content_type}</td>
+		<td align="center">${fld:description}</td>
+		<td align="center">${fld:image_size}</td>
+		<td align="center">${fld:image_data}</td>
+	</tr>
+			</rows>
+			</tbody>
+		
+		</table>
+	</div>	
+</div>

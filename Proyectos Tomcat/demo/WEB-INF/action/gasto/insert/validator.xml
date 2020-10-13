@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<validator onerror='/action/error/validation/ajax'>
+	<parameter id='fecha' type='date' required='true' label='Fecha' maxlen='13'/>
+	<parameter id='categ_id_name' type='varchar' required='true' label='Categoría'/>
+	<parameter id='categ_id' type='integer' required='false' label='Categoría' maxlen='10'/>
+	<parameter id='monto' type='double' required='true' label='Monto' maxlen='17'/>
+	<parameter id='motivo' type='varchar' required='true' label='Concepto' maxlen='150'/>
+</validator>

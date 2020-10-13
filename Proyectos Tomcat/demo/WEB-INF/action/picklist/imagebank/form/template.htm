@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+
+<head>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="${def:context}/css/bootstrap.min.css">
+
+<!-- CSS para Bootstrap de Dinamica -->
+<link rel="stylesheet" type="text/css" href="${def:context}/css/bootstrap.helper.css" />
+
+<!--biblioteca generica JS/Dinamica-->
+<script type="text/javascript" src="${def:context}/action/script">
+</script>
+
+<!--codigo de soporte del template-->
+<script type="text/javascript">
+
+		
+		
+		//inicializacion de la pagina cuando carga
+		onload = function()
+		{ 
+			document.form1.elements[0].focus();
+			document.getElementById("status").style.display='none';
+					var txt_image_size = new NumericInput(document.form1.image_size, 0);
+
+			search();
+		} 
+	
+		//mostrar filtro de busqueda
+		function showFilter()
+		{
+			document.form1.elements[0].focus();			
+		}
+
+		//ejecutar consulta
+		function search()
+		{
+
+			//llamada Ajax...
+			return ajaxCall(	httpMethod="POST", 
+								uri="${def:actionroot}/search", 
+								divResponse="response", 
+								divProgress="status", 
+								formName="form1", 
+								afterResponseFn=showFilter, 
+								onErrorFn=showFilter);
+		
+		}
+	
+		//leer una pagina del grid
+		function viewPage()
+		{
+			var url = "${def:actionroot}/view";
+			gotoPage(url);
+		}
+
+		//retornar el item seleccionado a la pagina que llamo al picklist
+		function selectItem(id) {
+			var description = document.getElementById(id).innerHTML;
+			parent.pickSelect(id, description);
+			parent.pickClose();
+		}
+		
+</script>
+
+</head>
+
+<body>
+
+<!--banner-->
+<div class="panel panel-info">
+	<div class="panel-heading">
+        <div class="panel-title">
+         	Seleccionar un registro
+         	<span style="float: right;">
+         		<span class="glyphicon glyphicon-remove" onclick="parent.pickClose()" title="Cerrar" style="font-size: 13pt;">
+				</span>
+         	</span>
+         	<span style="float: right;">
+				<span id="status" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="font-size: 13pt;"></span>
+			</span>
+        </div>
+    </div>
+</div>
+
+<div class="container"> 
+    <div class="panel panel-info" id="form">                
+  		<div class="panel-body">
+			<!--formulario de filtro-->
+			<form name="form1" onsubmit="return search()" >
+
+				<!--campos-->
+					<div class="form-group">
+		<input id="filename" name="filename" type="text" maxlength="400" class="form-control" placeholder="Archivo">
+	</div>
+	<div class="form-group">
+		<input id="content_type" name="content_type" type="text" maxlength="150" class="form-control" placeholder="Contenido">
+	</div>
+	<div class="form-group">
+		<input id="description" name="description" type="text" maxlength="500" class="form-control" placeholder="Descripción">
+	</div>
+	<div class="form-group">
+		<input id="image_size" name="image_size" type="text" maxlength="10" class="form-control" placeholder="Tamaño">
+	</div>
+	<div class="form-group">
+		<input id="image_data" name="image_data" type="text" maxlength="2147483647" class="form-control" placeholder="BLOB">
+	</div>
+
+				
+				<input type="submit" value="Buscar" class="btn btn-info btn-picklist" >	
+			</form>
+			<div id="validation_error" class="errormsg text-danger" style="width: 100%; text-align:center;"></div>
+		</div>
+	</div>
+
+<!--panel de respuesta AJAX-->
+<div id="response" style="display: none;">
+</div>
+</div>
+
+</body>
+
+</html>

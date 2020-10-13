@@ -1,0 +1,34 @@
+<!--data grid-->
+<table class="datagrid" style="width:90%;">
+
+	<col width='50%'/>
+	<col width='50%'/>
+
+
+	<!--toolbar-->
+	<tr>
+		<th colspan="2">
+			${req:controls} 
+		</th>
+	</tr>
+
+	<!--encabezados-->
+	<tr>
+		<th class='sortable' onclick="sortBy('productname','query-detail.sql')" >Producto</th>
+		<th class='sortable' onclick="sortBy('subtotal','query-detail.sql')" >Subtotal</th>
+	</tr>
+
+	<!--data-->
+	<rows>
+	<tr>
+		<td align="left">${fld:productname}</td>
+		<td align="right">${fld:subtotal@#,###,##0.00}</td>
+	</tr>
+	</rows>
+	
+		<tr>
+		<td align="right" colspan="1"><b>Total</b></td>
+		<td align="right">${fld:subtotal@#,###,##0.00}</td>
+	</tr>
+
+</table>

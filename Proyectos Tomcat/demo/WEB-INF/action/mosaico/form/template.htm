@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+
+<head>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="${def:context}/css/bootstrap.min.css">
+	
+	<!-- CSS para Bootstrap de Dinamica -->
+	<link rel="stylesheet" type="text/css" href="${def:context}/css/bootstrap.helper.css" />
+
+	<script type="text/javascript" src="${def:context}/action/script">
+	</script>
+	
+	<title>Documentos</title>
+
+</head>
+
+<body>
+
+<div class="container">
+
+	<!--banner-->
+	<div class="page-header page-info">
+	  ${req:progress}
+	  
+	  <h1><small>Documentos</small></h1>      
+	  
+	</div>
+
+	<!--panel de respuesta AJAX #1-->
+	<div id="response" style="display:none;"></div>
+	
+	<div id="picframe" class="dialogbox fade" draggable="true" style="opacity:0.1; border-radius:8px; left:-10000px; position:absolute">
+	<span class="glyphicon glyphicon-remove" onclick="closeImage()" title="Cerrar" style="font-size: 16pt;float:right;margin-top:5px;margin-right:9px;">
+	</span>
+	<img id="blob" style="width:700px;margin-left:10px;margin-top:1px;margin-bottom:5px;" onload="openImage()">
+	</div>
+
+</div>
+
+<!--codigo de soporte del template-->
+<script type="text/javascript">
+
+	//inicializacion de la pagina cuando carga
+	onload = function()
+	{ 
+		search();
+	} 
+	
+	//ejecutar consulta
+	function search()
+	{
+		//esconder grid principal
+		document.getElementById("response").style.display="none";
+	
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/search", 
+						divResponse="response", 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);
+	}
+	
+	//define la url en donde se mostrara el resultado de consulta
+	function viewPage()
+	{
+		var url = "${def:actionroot}/view";
+		//llama a la funcion para ir a la pagina indicada 
+		gotoPage(url);
+	}
+	
+	//mostrar imagen y esconder su indicador de progreso de carga
+	function displayImage(imageID) {
+		document.getElementById(imageID + "_wait").style.display='none';
+		document.getElementById(imageID).style.display='';
+	}
+	
+	//carga la imagen en un div oculto
+	function getImage(url) {
+		var progress = document.getElementById("status");
+		if (progress!=null)
+			progress.style.display='';
+		document.getElementById("blob").src=url + '&random=' + Math.random();
+	}
+	
+	//abrir imagen en un div con drag and drop
+	function openImage() {
+		var height = document.getElementById("blob").height;
+		var width = document.getElementById("blob").width;
+		var boxdiv = document.getElementById("picframe");
+		
+		var progress = document.getElementById("status");
+		if (progress!=null)
+			progress.style.display='none';
+		
+		boxdiv.style.position = 'absolute';
+		boxdiv.style.width = (width + 20) + 'px';
+		boxdiv.style.height = (height + 30) + 'px';
+		boxdiv.style.backgroundColor = 'white';
+		boxdiv.style.display = '';
+		boxdiv.style.opacity = 1;
+		
+		if (boxdiv.style.left < '0px') {
+			boxdiv.style.top = (pageHeight() - height) / 2 + 'px';
+			boxdiv.style.left = (pageWidth() - width) / 2 + 'px';
+		}
+	}
+	
+	//cerrar div donde se encuentra la imagen
+	function closeImage()
+	{
+		var boxdiv = document.getElementById("picframe");
+		boxdiv.style.position = 'absolute';
+		boxdiv.style.left = -10000 + 'px';
+		boxdiv.style.opacity=0.1;
+	}
+	
+	//Inicio funciones para drag and drop de un DIV
+	function drag_start(event) {
+	    var style = window.getComputedStyle(event.target, null);
+	    event.dataTransfer.setData("text",
+	    (parseInt(style.getPropertyValue("left"),10) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - event.clientY));
+	} 
+	function drag_over(event) { 
+	    event.preventDefault(); 
+	    return false; 
+	} 
+	function drop(event) { 
+	    var offset = event.dataTransfer.getData("text").split(','); 
+	    var dm = document.getElementById('picframe');
+	    dm.style.left = (event.clientX + parseInt(offset[0],10)) + 'px';
+	    dm.style.top = (event.clientY + parseInt(offset[1],10)) + 'px';
+	    event.preventDefault();
+	    return false;
+	} 
+	var dm = document.getElementById('picframe'); 
+	dm.addEventListener('dragstart',drag_start,false); 
+	document.body.addEventListener('dragover',drag_over,false); 
+	document.body.addEventListener('drop',drop,false); 
+	//Fin de funciones para drag and drop de un DIV
+	
+	
+</script>
+
+</body>
+
+</html>

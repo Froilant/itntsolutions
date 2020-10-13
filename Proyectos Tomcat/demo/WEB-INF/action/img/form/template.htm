@@ -1,0 +1,396 @@
+<!doctype html>
+<html>
+
+<head>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="${def:context}/css/bootstrap.min.css">
+
+<!-- CSS para Bootstrap de Dinamica -->
+<link rel="stylesheet" type="text/css" href="${def:context}/css/bootstrap.helper.css" />
+
+<!-- jquery -->
+<script type="text/javascript" src="${def:context}/js/jquery.min.js">
+</script>
+
+<!-- Bootstrap JS -->
+<script type="text/javascript" src="${def:context}/js/bootstrap.min.js">
+</script>
+
+<script type="text/javascript" src="${def:context}/action/script">
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+	
+	<!--banner-->
+	<div class="page-header page-info">  
+	  <h1>
+		<small>Registro de Imagenes</small>
+		${req:progress}
+	  </h1>      
+	</div>
+	
+	<div class="panel panel-info main-center">
+ 		<div class="panel-heading">
+             <div class="panel-title"><span id="formTitle">Añadir registro</span></div>
+        </div>
+                    
+  		<div class="panel-body">
+
+			<!--formulario addnew/edit-->
+			<form name="form1" onsubmit="return upload()" action="${def:context}/action/upload" method="POST" enctype="multipart/form-data" target="uploadFrame" class="form-horizontal">
+
+				<!--campos-->
+								<div class="form-group required">
+				<label class="control-label col-sm-3" for="description">Descripción</label>
+				<div class="col-sm-9">
+					<textarea id="description" name="description" cols="30" rows="3" class="form-control" ></textarea>
+				</div>
+			</div>
+
+
+				<div class="form-group">
+					<label class="control-label col-sm-3" for="${campo}">Archivo</label>
+					<div class="col-sm-9">
+						 <div class="input-group">
+						 	<input type="text" class="form-control" readonly>
+							<label class="input-group-btn">
+			                    <span class="btn btn-primary">
+			                        Buscar<input type="file" id="file" name="file" style="display: none;" onchange="setFileInfo('','','','')">
+			                    </span>
+			                </label>
+						 </div>	                
+                	</div>
+				</div>
+				
+				<!--botones-->
+				<div class="form-group"> 
+    				<div class="col-sm-offset-3 col-sm-9">
+						<input type="submit" value="Grabar" name="submit" id="grabar" class="btn btn-info"/>
+						<input type="button" value="Cancelar" onclick="addNew()" class="btn btn-default"/>
+					</div>
+				</div>
+
+				<!-- PK-->
+				<input type="hidden" name="id" value="" alt="numeric">
+				<!-- informacion del archivo temporal -->
+				<input type="hidden" name="_tempfile">
+				<input type="hidden" name="_filename">
+				<input type="hidden" name="_contenttype">
+				<input type="hidden" name="_filesize">
+
+			</form>
+		</div>	
+	</div>
+		<div class="panel panel-info main-center">
+		<div class="panel-body">
+			<!-- filtro de busqueda -->
+			<form onsubmit="return false;" class="form-inline">
+				<div class="form-group">
+					<label for="fecha">Buscar por:</label>
+					<select name="campo" id="campo" size="1" class="form-control">
+										<option value="description">Descripción</option>
+
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<input id="valor" name="valor" type="text" size="20" maxlength="20" class="form-control">
+				</div>
+				
+				<div class="form-group">
+					<input type="submit" value="Buscar" class="btn btn-default" onclick="search()">
+				</div>
+			</form>
+			
+			<div id="validation_error" class="errormsg text-danger" style="text-align: center;"></div>
+			
+		</div>
+	</div>
+
+
+	<!--frame invisible para hacer el post del archivo-->
+	<iframe name="uploadFrame" style="display:none">
+	</iframe>
+
+	<!--panel de respuesta AJAX para el grid paginado-->
+	<div id="response" style="display: none;"></div>
+
+	<!-- Creates the bootstrap modal where the image will appear -->
+	<img id="blob" style="display: none" onload="openImage()">
+	<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+	      </div>
+	      <div class="modal-body" style="margin: 0 auto;">
+	        <img src="" id="imagepreview" style="width: 100%" >
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+</div>
+
+</body>
+<!--codigo de soporte del template-->
+<script type="text/javascript">
+
+	//inicializa cuando se carga la pagina
+	onload = function()
+	{
+		addNew(); //prepara formulario para ingresar nuevo registro 
+		search(); //mostrar registros en vista paginada
+
+	} 
+	
+	$(function() {
+
+			// We can attach the `fileselect` event to all file inputs on the page
+			$(document).on('change', ':file', function() {
+			   		var input = $(this),
+			       	numFiles = input.get(0).files ? input.get(0).files.length : 1,
+			       	label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+			   		input.trigger('fileselect', [numFiles, label]);
+			});
+ 
+			// We can watch for our custom `fileselect` event like this
+			$(document).ready( function() {
+			     $(':file').on('fileselect', function(event, numFiles, label) {
+			
+			         var input = $(this).parents('.input-group').find(':text'),
+			             log = numFiles > 1 ? numFiles + ' files selected' : label;
+			
+			         if( input.length ) {
+			             input.val(log);
+			         } else {
+			             if( log ) alert(log);
+			         }
+			
+			     });
+			});
+	});
+	
+	
+	//ejecutar consulta y mostrar grid, si hay data viewPage() sera invocada automaticamente
+	function search()
+	{
+
+		var p1 = document.getElementById('campo').value;
+		var p2 = document.getElementById('valor').value;
+		
+		clearErrorMessages();
+		
+		var url = "${def:actionroot}/search";
+		
+		if (p1!= null && p2!= null)
+			url = "${def:actionroot}/search?" + p1 + "=" + p2;
+		
+		//determina si refresca y se para en la pagina actual o en la pagina 1
+		if (currentPage > 0) {
+			url = "${def:actionroot}/search?currentpage=" + currentPage;
+			
+			if (p1!= null && p2!= null)
+				url = "${def:actionroot}/search?currentpage=" + currentPage + "&" + p1 + "=" + p2;
+		}
+
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri= url, 
+						divResponse="response", 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);
+	}
+
+
+
+	//enviar POST del formulario
+	function upload()
+	{
+	
+		//determinar si es un insert
+		if (document.form1.id.value=="") {
+			if (document.form1.file.value=="") {
+				alertBox("Por favor seleccione un archivo.", "Continuar");
+				document.form1.file.focus();
+				return false;
+			}
+			if (document.form1._tempfile.value=="") {
+				document.form1.submit.disabled = true;
+				document.getElementById("status").style.display="";
+				return true;
+			} else {
+				save();
+				return false;
+			}		
+		} else {
+			//es un update, determinar si quieren actualizar tambien el blob
+			if (document.form1.file.value=="") {
+				save();
+				return false;
+			} else {
+				document.form1.submit.disabled = true;
+				document.getElementById("status").style.display="";				
+				return true;
+			}
+		}
+	
+	}
+	
+	//pone los valores del archivo cargado 
+	//en los controles del formulario, es llamada por el iframe escondido
+	function setFileInfo(tempFile, fileName, fileSize, contentType) {
+		document.form1._tempfile.value = tempFile;
+		document.form1._filename.value = fileName;
+		document.form1._filesize.value = fileSize;
+		document.form1._contenttype.value = contentType;
+		
+		//realizar la grabacion
+		if(tempFile!='' && fileName!='' && fileSize!='' && contentType!='')
+			save();
+	}
+
+	//traer la pagina N del grid
+	function viewPage()
+	{
+		var url = "${def:actionroot}/view";
+		gotoPage(url);
+	}	
+	
+	//grabar el formulario
+	function save()
+	{
+	
+		clearErrorMessages();
+	
+		var uri = "${def:actionroot}/insert"
+		if (document.form1.id.value!="") {
+			if (document.form1._tempfile.value=="")
+				uri = "${def:actionroot}/update"
+			else
+				uri = "${def:actionroot}/updateblob"
+		}
+				
+		ajaxCall(httpMethod="POST", 
+						uri, 
+						divResponse=null, 
+						divProgress="status", 
+						formName="form1", 
+						afterResponseFn=null, 
+						onErrorFn=retryAddnewOrEdit);	 
+	}
+
+	//restaurar el formulario en caso de error
+	function retryAddnewOrEdit() {
+		document.form1.submit.disabled=false;
+		setFocusOnForm("form1");		
+	}
+
+	function addNew() {
+		document.getElementById("formTitle").innerHTML = "Añadir registro";
+		clearErrorMessages();
+		document.form1.submit.disabled = false;
+		document.form1.reset();
+		clearForm("form1");
+		setFocusOnForm("form1");
+	}
+
+	//funcion de callback del iframe cuando no carga correctamente el documento
+	function uploadError(msg)
+	{
+		document.getElementById("status").style.display="none";	
+		document.form1.submit.disabled = false;
+		alertBox(msg, "Continuar");
+	}
+
+	//editar registro en formulario
+	function edit(id)
+	{
+		clearErrorMessages();
+
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/edit?id=" + id , 
+						divResponse=null, 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);	
+	}
+	
+	function deleteRecord(id) {
+		alertBox("¿Desea borrar este registro de la base de datos?", "Eliminar", "Cancelar", "deleteRecordOK(" + id + ")")		
+	}
+	
+	//eliminar un registro
+	function deleteRecordOK(id) 
+	{
+		//llamada Ajax...
+		ajaxCall(httpMethod="GET", 
+						uri="${def:actionroot}/delete?id=" + id,
+						divResponse=null, 
+						divProgress="status", 
+						formName=null, 
+						afterResponseFn=null, 
+						onErrorFn=null);	
+						
+	}
+	
+	//invoca un popup para descargar los documentos
+	function downloadBlob(id)
+	{
+		var url = "${def:context}${def:actionroot}/download?id=" + id;
+		window.location = url;
+	}
+	
+	//invoca la generacion de un PDF en un popup
+	function openPDF()
+	{
+		var features = "height=500,width=800,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes";
+		var url = "${def:context}${def:actionroot}/pdf?random=" + Math.random();
+		var w = window.open(url, null, features);
+	}
+
+	//invoca la generacion de un Excel 
+	function openExcel()
+	{
+		var url = "${def:context}${def:actionroot}/excel?random=" + Math.random();
+		window.location = url;
+	}
+	
+	//carga la imagen en un div oculto
+	function getImage(id, contentType) {
+		var url = "${def:context}${def:actionroot}/getblob?id=" + id;
+		if (contentType.indexOf("image") < 0) {
+			url = "${def:context}${def:actionroot}/download?id=" + id;
+			window.location = url;
+		} else {
+			var progress = document.getElementById("status");
+			if (progress!=null)
+				progress.style.display='';
+			document.getElementById("blob").src=url + '&random=' + Math.random();
+		}
+	}
+	
+	//abrir imagen en un modal
+	function openImage() {
+		$('#imagepreview').attr('src', $('#blob').attr('src')); // here asign the image to the modal when the user click the enlarge link
+		$('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
+		var progress = document.getElementById("status");
+		if (progress!=null)
+			progress.style.display='none';
+	}
+
+</script>
+
+</html>

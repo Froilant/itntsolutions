@@ -1,0 +1,78 @@
+	<!--data grid-->
+ 	<div class="panel panel-info table-responsive">
+ 	
+ 		<div class="panel-heading">
+            <div class="panel-title">
+            	${req:controls}
+            </div>
+		</div>
+ 	
+ 		<div class="panel-body">
+			
+			<!--data grid-->
+			<table class="table table-hover table-striped">
+
+				<col width="3%"/>
+				<col width="3%"/>
+				<col width="3%"/>
+				<col width="3%"/>
+				<col width='22%'/>
+	<col width='22%'/>
+	<col width='22%'/>
+	<col width='22%'/>
+
+
+				<!--encabezados-->
+				<thead>
+				<tr>
+					<th colspan="4"></th>
+					<th class='sortable' onclick="sortBy('filename','query-imagebank.sql')" >Archivo<span class="glyphicon glyphicon-triangle-top" id="sort_desc_filename">
+</span>
+<span class="glyphicon glyphicon-triangle-bottom" id="sort_asc_filename">
+</span></th>
+		<th class='sortable' onclick="sortBy('content_type','query-imagebank.sql')" >Contenido<span class="glyphicon glyphicon-triangle-top" id="sort_desc_content_type">
+</span>
+<span class="glyphicon glyphicon-triangle-bottom" id="sort_asc_content_type">
+</span></th>
+		<th class='sortable' onclick="sortBy('description','query-imagebank.sql')" >Descripción<span class="glyphicon glyphicon-triangle-top" id="sort_desc_description">
+</span>
+<span class="glyphicon glyphicon-triangle-bottom" id="sort_asc_description">
+</span></th>
+		<th class='sortable' onclick="sortBy('image_size','query-imagebank.sql')" >Tamaño<span class="glyphicon glyphicon-triangle-top" id="sort_desc_image_size">
+</span>
+<span class="glyphicon glyphicon-triangle-bottom" id="sort_asc_image_size">
+</span></th>
+	</tr>
+				</thead>
+				
+				<!--data-->
+				<tbody>
+				<rows>
+				<tr>
+					<td>
+						<span class="glyphicon glyphicon-download-alt" onclick="downloadBlob('${fld:id}')" title="Descargar">
+						</span>
+					</td>
+					<td>
+						<span class="glyphicon glyphicon-search" onclick="getImage('${fld:id}', '${fld:content_type}')" title="Ver documento">
+						</span>
+					</td>
+					<td>
+						<span class="glyphicon glyphicon-trash" onclick="deleteRecord('${fld:id}')" title="Eliminar">
+						</span>
+					</td>
+					<td>
+						<span class="glyphicon glyphicon-edit" onclick="edit('${fld:id}')" title="Editar">
+						</span>
+					</td>
+					<td align="left">${fld:filename}</td>
+		<td align="left">${fld:content_type}</td>
+		<td align="left">${fld:description}</td>
+		<td align="center">${fld:image_size}</td>
+	</tr>
+				</rows>
+				</tbody>
+
+			</table>
+		</div>
+	</div>	
